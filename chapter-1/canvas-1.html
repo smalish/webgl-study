@@ -3,7 +3,7 @@
  * @description: 
  * @Date: 2021-04-23 13:33:43
  * @LastEditors: yangying01
- * @LastEditTime: 2021-04-23 18:02:36
+ * @LastEditTime: 2021-04-25 17:09:45
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -80,34 +80,32 @@
     }
 
     function getGLContext(){
-    var canvas = document.getElementById("canvas-element-id");
-    if (canvas == null){
-    alert("there is no canvas on this page");
-    return;
+      var canvas = document.getElementById("canvas-element-id");
+      if (canvas == null){
+        alert("there is no canvas on this page");
+        return;
+      }
+      var names = ["webgl", 
+        "experimental-webgl", 
+        "webkit-3d", 
+        "moz-webgl"];
+      var ctx = null;
+      for (var i = 0; i < names.length; ++i) {
+        try {
+        ctx = canvas.getContext(names[i]);
+        } catch(e) {}
+        if (ctx) break;
+      }
+      if (ctx == null){
+        alert("WebGL is not available");
+      }else{
+        return ctx;
+      }
     }
-    var names = ["webgl", 
-    "experimental-webgl", 
-    "webkit-3d", 
-    "moz-webgl"];
-    var ctx = null;
-    for (var i = 0; i < names.length; ++i) {
-    try {
-    ctx = canvas.getContext(names[i]);
-    } 
-    catch(e) {}
-    if (ctx) break;
-    }
-    if (ctx == null){
-    alert("WebGL is not available");
-    }
-    else{
-    return ctx;
-    }
-  }
 
   function clear(ctx){
     ctx.clear(ctx.COLOR_BUFFER_BIT); 
-    ctx.viewport(0, 0, c_width, c_height);
+    // ctx.viewport(0, 0, c_width, c_height);
   }
   function initWebGL(){
     gl = getGLContext();
